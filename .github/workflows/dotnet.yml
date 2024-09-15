@@ -39,7 +39,7 @@ jobs:
       - name: Restaurando a aplicação
         run: |
                ssh -i /tmp/private_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@${{ secrets.HOST }} \
-               cd  /home/ubuntu/appCs/IpApp && dotnet publish -c Release -o /home/ubuntu/appCs/IpApp/out -p /home/ubuntu/appCs/IpApp/IpApp.csproj && dotnet run --urls=http://localhost:5000 \   
+               cd  /home/ubuntu/appCs/IpApp && dotnet publish -c Release -o /home/ubuntu/appCs/IpApp/out -p /home/ubuntu/appCs/IpApp && dotnet run --urls=http://localhost:5000 \   
  
       - name: Limpa o arquivo de chave privada após uso
         run: |
