@@ -1,0 +1,64 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    # sistema operacional da máquina que o Github irá disponibilizar para rodar o nosso script
+    runs-on: ubuntu-latest
+ 
+    # aqui é iniciado o passo a passo para realizar o processo de publicação
+    steps:
+      - uses: actions/checkout@v3
+   
+      - name: Cria um arquivo temporário para a chave privada 
+        run: |
+               echo "${{ secrets.KEY }}" > /tmp/private_key
+               chmod 600 /tmp/private_key
+ 
+      - name: Criando a pasta da aplicação e acertando diretório...
+        run: |
+               ssh -i /tmp/private_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@${{ secrets.HOST }} \
+               sudo mkdir -p /home/ubuntu/appdemo1 
+ 
+      - name: Ajustar permissões no servidor de Produção
+        run: |
+          ssh -i /tmp/private_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@${{ secrets.HOST }} "sudo chown -R ubuntu:ubuntu /home/ubuntu/appCs/IpApp && sudo chmod -R 755 /home/ubuntu/appCs/IpApp"
+                      
+      - name: Transferindo os arquivos da aplicação
+        run: |
+               scp -i /tmp/private_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r ${{ github.workspace }}/* ubuntu@${{ secrets.HOST }}:/home/ubuntu/appCs
+ 
+      - name: Restaurando a aplicação
+        run: |
+               ssh -i /tmp/private_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@${{ secrets.HOST }} \
+               cd  /home/ubuntu/appCs/IpApp && dotnet publish -c Release -o out && dotnet run --urls=http://localhost:5000 \   
+ 
+      - name: Limpa o arquivo de chave privada após uso
+        run: |
+           rm /tmp/private_key
+
+
+
+
+#    runs-on: ubuntu-latest #
+
+#    steps:
+#    - uses: actions/checkout@v4
+#    - name: Setup .NET
+#      uses: actions/setup-dotnet@v4
+#      with:
+#        dotnet-version: 8.0.x
+#    - name: Restore dependencies
+#      run: dotnet restore
+#    - name: Build
+#      run: dotnet build --no-restore
+#    - name: Test
+#      run: dotnet test --no-build --verbosity normal
