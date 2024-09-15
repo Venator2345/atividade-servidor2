@@ -26,7 +26,7 @@ jobs:
       - name: Criando a pasta da aplicação e acertando diretório...
         run: |
                ssh -i /tmp/private_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@${{ secrets.HOST }} \
-               sudo mkdir -p /home/ubuntu/appdemo1 
+               sudo mkdir -p /home/ubuntu/appCs/IpApp
  
       - name: Ajustar permissões no servidor de Produção
         run: |
