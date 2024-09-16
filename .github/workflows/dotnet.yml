@@ -40,7 +40,7 @@ jobs:
         run: |
                ssh -i /tmp/private_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@${{ secrets.HOST }} \
                cd  /home/ubuntu/appCs/IpApp 
-               dotnet publish -c Release -o out 
+               dotnet publish -c Release -o /home/ubuntu/appCs/IpApp/out -p /home/ubuntu/appCs/IpApp/IpApp.csproj 
                dotnet ./out/IpApp.dll --urls=http://localhost:5000  
 
                # cd  /home/ubuntu/appCs/IpApp && \
