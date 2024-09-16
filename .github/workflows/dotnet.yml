@@ -44,7 +44,7 @@ jobs:
                dotnet ./out/IpApp.dll --urls=http://localhost:5000  
 
                # cd  /home/ubuntu/appCs/IpApp && \
-               # dotnet publish -c Release -o /home/ubuntu/appCs/IpApp/out -p /home/ubuntu/appCs/IpApp/IpApp.csproj && \
+               # dotnet publish -c Release -o /home/ubuntu/appCs/IpApp/out --project /home/ubuntu/appCs/IpApp/IpApp.csproj && \
                # dotnet /home/ubuntu/appCs/IpApp/out/IpApp.dll --urls=http://localhost:5000 \  
  
       - name: Limpa o arquivo de chave privada após uso
