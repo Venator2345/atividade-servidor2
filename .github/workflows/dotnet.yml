@@ -39,7 +39,7 @@ jobs:
       - name: Restaurando a aplicação
         run: |
                ssh -i /tmp/private_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@${{ secrets.HOST }} 
-               dotnet publish /home/ubuntu/appCs/IpApp/IpApp.csproj -c Release -o /home/ubuntu/appCs/IpApp/out \
+               dotnet publish /home/ubuntu/appCs/IpApp/IpApp.csproj -c Release -o /home/ubuntu/appCs/IpApp/out && \
                dotnet /home/ubuntu/appCs/IpApp/out/IpApp.dll --urls=http://localhost:5000  \
 
                # cd  /home/ubuntu/appCs/IpApp && \
